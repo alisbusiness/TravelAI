@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: tripgenie
+        options: >-
+          --health-cmd="pg_isready -U postgres" --health-interval=10s --health-timeout=5s --health-retries=5
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/tripgenie?schema=public
+      REDIS_URL: redis://localhost:6379
+      JWT_ACCESS_SECRET: test_secret_access
+      JWT_REFRESH_SECRET: test_secret_refresh
+      MAGIC_LINK_SECRET: test_magic
+      MAGIC_LINK_TTL_MINUTES: 20
+      APP_URL: http://localhost:8080
+      CLIENT_URL: http://localhost:3000
+      AFFILIATE_BOOKING_COM_PARTNER_ID: TEST
+      AFFILIATE_UTM_SOURCE: tripgenie
+      AFFILIATE_UTM_MEDIUM: affiliate
+      STRIPE_SUCCESS_URL: http://localhost
+      STRIPE_CANCEL_URL: http://localhost
+      TEST_SKIP_STRIPE_SIGNATURE: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm prisma:generate
+      - run: pnpm prisma:migrate:dev --name init --create-only
+      - run: pnpm prisma migrate deploy
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm test
+
