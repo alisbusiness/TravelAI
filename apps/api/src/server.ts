@@ -5,7 +5,7 @@ import rateLimit from '@fastify/rate-limit';
 import swagger from '@fastify/swagger';
 import swaggerUI from '@fastify/swagger-ui';
 import sensible from '@fastify/sensible';
-import rawBody from '@fastify/raw-body';
+import rawBody from 'fastify-raw-body';
 import { env } from './config/env.js';
 import { logger } from './config/logger.js';
 import { registerRoutes } from './routes.js';
