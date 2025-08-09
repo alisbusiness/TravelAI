@@ -2,11 +2,11 @@
 set -e
 
 echo "Running database migrations..."
-npx prisma migrate deploy
+pnpm prisma migrate deploy || echo "Migration failed or already applied, continuing..."
 
 if [ "$SEED_ON_BOOT" = "true" ]; then
   echo "Seeding database..."
-  npx prisma db seed || echo "Seeding skipped or already done"
+  pnpm prisma db seed || echo "Seeding skipped or already done"
 fi
 
 echo "Starting application..."

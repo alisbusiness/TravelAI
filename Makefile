@@ -2,31 +2,31 @@
 
 # Docker compose commands
 up:
-	docker compose -f infrastructure/docker-compose.yml up --build
+	docker-compose -f infrastructure/docker-compose.yml up --build
 
 down:
-	docker compose -f infrastructure/docker-compose.yml down -v
+	docker-compose -f infrastructure/docker-compose.yml down -v
 
 logs:
-	docker compose -f infrastructure/docker-compose.yml logs -f
+	docker-compose -f infrastructure/docker-compose.yml logs -f
 
 ps:
-	docker compose -f infrastructure/docker-compose.yml ps
+	docker-compose -f infrastructure/docker-compose.yml ps
 
 restart:
 	make down
 	make up
 
 clean:
-	docker compose -f infrastructure/docker-compose.yml down -v
+	docker-compose -f infrastructure/docker-compose.yml down -v
 	docker system prune -f
 
 build:
-	docker compose -f infrastructure/docker-compose.yml build --no-cache
+	docker-compose -f infrastructure/docker-compose.yml build --no-cache
 
 # Development commands
 dev:
-	docker compose -f infrastructure/docker-compose.yml up postgres redis mailhog -d
+	docker-compose -f infrastructure/docker-compose.yml up postgres redis mailhog -d
 	cd apps/api && pnpm dev &
 	cd apps/web && pnpm dev
 

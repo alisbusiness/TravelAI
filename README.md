@@ -42,7 +42,7 @@ cd tripgenie
 # Start the entire stack
 make up
 # OR
-docker compose -f infrastructure/docker-compose.yml up --build
+docker-compose -f infrastructure/docker-compose.yml up --build
 ```
 
 ### 🌐 Access Points

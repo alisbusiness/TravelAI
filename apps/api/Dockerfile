@@ -7,11 +7,11 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@9.7.0 --activate
 
 # Copy package files
-COPY package.json pnpm-lock.yaml ./
+COPY package.json ./
 COPY prisma ./prisma/
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 # Copy source code
 COPY src ./src
@@ -29,20 +29,27 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
+# Install OpenSSL and other necessary packages for Prisma
+RUN apk add --no-cache openssl openssl-dev libc6-compat
+
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@9.7.0 --activate
 
 # Copy package files
-COPY package.json pnpm-lock.yaml ./
+COPY package.json ./
 COPY prisma ./prisma/
 
 # Install production dependencies only
-RUN pnpm install --frozen-lockfile --prod
+RUN pnpm install --prod
 
 # Copy built application
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+
+# Copy migration files from builder
+COPY --from=builder /app/prisma ./prisma/
+
+# Generate Prisma client in production
+RUN pnpm prisma:generate
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \

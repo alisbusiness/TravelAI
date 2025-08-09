@@ -18,19 +18,11 @@ export async function buildServer() {
 
   await app.register(sensible);
   await app.register(cors, {
-    origin: (origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) => {
-      // Allow requests from CLIENT_URL and localhost variations
-      const allowedOrigins = [
-        env.CLIENT_URL,
-        'http://localhost:3000',
-        'http://127.0.0.1:3000'
-      ];
-      if (!origin || allowedOrigins.includes(origin)) {
-        cb(null, true);
-      } else {
-        cb(new Error('Not allowed by CORS'));
-      }
-    },
+    origin: [
+      env.CLIENT_URL,
+      'http://localhost:3000',
+      'http://127.0.0.1:3000'
+    ],
     credentials: true,
     exposedHeaders: ['x-auth-token', 'x-refresh-token'],
   });

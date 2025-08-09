@@ -4,9 +4,9 @@
   "private": true,
   "description": "Infrastructure and deployment configurations for TripGenie",
   "scripts": {
-    "up": "docker-compose up --build",
-    "down": "docker-compose down -v",
-    "logs": "docker-compose logs -f",
-    "ps": "docker-compose ps"
+    "up": "docker-compose -f docker-compose.yml up --build",
+    "down": "docker-compose -f docker-compose.yml down -v",
+    "logs": "docker-compose -f docker-compose.yml logs -f",
+    "ps": "docker-compose -f docker-compose.yml ps"
   }
 }

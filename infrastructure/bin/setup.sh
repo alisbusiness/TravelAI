@@ -49,11 +49,11 @@ pnpm install
 
 # Build Docker images
 echo -e "\n${YELLOW}Building Docker images...${NC}"
-docker compose -f infrastructure/docker-compose.yml build
+docker-compose -f infrastructure/docker-compose.yml build
 
 echo -e "\n${GREEN}✅ Setup complete!${NC}"
 echo -e "\nTo start the application, run:"
-echo -e "  ${GREEN}make up${NC} or ${GREEN}docker compose -f infrastructure/docker-compose.yml up${NC}"
+echo -e "  ${GREEN}make up${NC} or ${GREEN}docker-compose -f infrastructure/docker-compose.yml up${NC}"
 echo -e "\nThe application will be available at:"
 echo -e "  Web: ${GREEN}http://localhost:3000${NC}"
 echo -e "  API: ${GREEN}http://localhost:8080${NC}"

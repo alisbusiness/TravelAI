@@ -14,10 +14,10 @@
     "format": "pnpm run -r format",
     "typecheck": "pnpm run -r typecheck",
     "test": "pnpm run -r test",
-    "compose:up": "docker compose -f infrastructure/docker-compose.yml up --build",
-    "compose:down": "docker compose -f infrastructure/docker-compose.yml down -v",
-    "compose:logs": "docker compose -f infrastructure/docker-compose.yml logs -f",
-    "compose:ps": "docker compose -f infrastructure/docker-compose.yml ps"
+    "compose:up": "docker-compose -f infrastructure/docker-compose.yml up --build",
+    "compose:down": "docker-compose -f infrastructure/docker-compose.yml down -v",
+    "compose:logs": "docker-compose -f infrastructure/docker-compose.yml logs -f",
+    "compose:ps": "docker-compose -f infrastructure/docker-compose.yml ps"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.0.1",
